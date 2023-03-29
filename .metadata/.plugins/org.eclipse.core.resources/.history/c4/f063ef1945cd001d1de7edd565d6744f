@@ -1,0 +1,11 @@
+package com.kce.model;
+
+public class Register {
+	String firstName;
+	String lastName;
+	String birthDay;
+	String gender;
+	String Email;
+	int phoneNumber;
+	String memberShip;
+}

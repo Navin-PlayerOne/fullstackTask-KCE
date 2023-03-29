@@ -1,0 +1,131 @@
+// Get all the edit and delete icons
+const editIcons = document.querySelectorAll('a[data-tip="edit"]');
+const deleteIcons = document.querySelectorAll('a[data-tip="delete"]');
+
+// Add event listeners to each edit icon
+editIcons.forEach((icon) => {
+  icon.addEventListener('click', (event) => {
+    // Get the corresponding row
+    const row = event.target.closest('tr');
+    let previousData={
+      'firstName': row.children[0].textContent,
+      'lastName' : row.children[1].textContent,
+      'email' : row.children[2].textContent,  
+      'birthDay' : row.children[3].textContent,
+      'inlineRadioOptions' : row.children[4].textContent,
+      'phoneNumber' : row.children[5].textContent,
+    }
+
+    // Make the row editable
+    row.contentEditable = true;
+    row.classList.add('editable');
+
+    // Change the edit icon to a save icon
+    const editIcon = row.querySelector('a[data-tip="edit"]');
+    editIcon.innerHTML = '<i class="fa fa-save"></i>';
+
+    // Define a function to handle the save event
+    const handleSave = (event) => {
+      // Get the values from the edited row
+      let currentData={
+        'firstName': row.children[0].textContent,
+        'lastName' : row.children[1].textContent,
+        'email' : row.children[2].textContent,  
+        'birthDay' : row.children[3].textContent,
+        'inlineRadioOptions' : row.children[4].textContent,
+        'phoneNumber' : row.children[5].textContent,
+      }
+
+      // Make the row non-editable
+    
+      row.contentEditable = false;
+      row.removeAttribute('editable');
+      row.removeAttribute('class');
+
+      editIcon.innerHTML='<div class="spinner-border spinner-border-sm"></div>'
+
+      $.ajax({
+        url: 'UpdateHandler',
+        method: 'POST',
+        data: currentData,
+        success: function(response) {
+          console.log(response)
+          let res = JSON.parse(response)
+          if(res){
+            // Change the save icon back to an edit icon
+            editIcon.innerHTML = '<i class="fa fa-edit"></i>';
+            
+            // Remove the click event listener from the save icon
+            editIcon.removeEventListener('click', handleSave);
+		      }
+          else{
+            //change the content to its previous content
+            row.children[0].textContent = previousData.firstName
+            row.children[1].textContent = previousData.lastName
+            row.children[2].textContent = previousData.email
+            row.children[3].textContent = previousData.birthDay
+            row.children[4].textContent = previousData.inlineRadioOptions
+            row.children[5].textContent = previousData.phoneNumber
+            // Change the save icon back to an edit icon
+            editIcon.innerHTML = '<i class="fa fa-edit"></i>';
+            
+            // Remove the click event listener from the save icon
+            editIcon.removeEventListener('click', handleSave);
+          }
+          
+        },
+        error: function(xhr, status, error) {
+          //change the content to its previous content
+          row.children[0].textContent = previousData.firstName
+          row.children[1].textContent = previousData.lastName
+          row.children[2].textContent = previousData.email
+          row.children[3].textContent = previousData.birthDay
+          row.children[4].textContent = previousData.inlineRadioOptions
+          row.children[5].textContent = previousData.phoneNumber
+          // Handle errors
+          console.log(error);
+          // Change the save icon back to an edit icon
+          editIcon.innerHTML = '<i class="fa fa-edit"></i>';
+          
+          // Remove the click event listener from the save icon
+          editIcon.removeEventListener('click', handleSave);
+    }
+      });
+
+    
+    };
+
+    // Add a click event listener to the save icon
+    editIcon.addEventListener('click', handleSave);
+  });
+});
+
+// Add event listeners to each delete icon
+deleteIcons.forEach((icon) => {
+  icon.addEventListener('click', (event) => {
+    // Get the corresponding row
+    const row = event.target.closest('tr');
+    console.log(row)
+    console.log(row.children[2].textContent)
+   //delete row using ajax
+    $.ajax({
+        url: 'DeleteHandler',
+        method: 'POST',
+        data: {'email' : row.children[2].textContent},
+        success: function(response) {
+          console.log(response)
+          let res = JSON.parse(response)
+          if(res){
+			// Remove the row from the table
+            row.remove();
+		  }
+          
+        },
+        error: function(xhr, status, error) {
+      // Handle errors
+      console.log(error);
+    }
+      });
+
+  });
+});

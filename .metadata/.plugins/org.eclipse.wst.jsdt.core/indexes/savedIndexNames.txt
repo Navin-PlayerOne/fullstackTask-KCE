@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+C:\Users\googn\eclipse-workspace\registration\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+1003611737.index
+2235148736.index
+178358863.index
+3702029465.index
+1782487831.index
+1036152182.index

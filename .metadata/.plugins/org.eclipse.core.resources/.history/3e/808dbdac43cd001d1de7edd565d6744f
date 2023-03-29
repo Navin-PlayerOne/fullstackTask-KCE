@@ -1,0 +1,55 @@
+package com.kce.util;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class DBUtil {
+	private  Connection connection;
+	public static Connection createConnection() {
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			
+		}
+		try {
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/register","root","PlayerOne01");
+			
+		} catch (SQLException e) {
+			
+		}
+		return connection;
+	}
+}
+//package register.dao;
+//
+//import java.sql.Connection;
+//import java.sql.DriverManager;
+//import java.sql.PreparedStatement;
+//import java.sql.SQLException;
+//
+//import register.model.registration;
+//
+//public class registrationdao {
+//   public int registerstudent(registration reg) throws ClassNotFoundException {
+//     int res=0;
+//     String query="insert into register values(?,?,?,?,?)";
+//     Class.forName("com.mysql.cj.jdbc.Driver");
+//     try {
+//    Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/reg","root","Sarankumar@23");
+//    PreparedStatement ps=con.prepareStatement(query);
+//      ps.setString(1,reg.getName());
+//      ps.setString(2,reg.getRollno());
+//      ps.setString(3,reg.getPassword());
+//      ps.setString(4,reg.getDepartment());
+//      ps.setString(5,reg.getDob());
+//      res=ps.executeUpdate();
+//      
+//     } catch (SQLException e) {
+//    e.printStackTrace();
+//  }
+//     
+//    return res;
+//     
+//   }
+}

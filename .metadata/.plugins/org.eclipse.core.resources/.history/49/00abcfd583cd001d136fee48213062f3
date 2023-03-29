@@ -1,0 +1,55 @@
+// Get all the edit and delete icons
+const editIcons = document.querySelectorAll('a[data-tip="edit"]');
+const deleteIcons = document.querySelectorAll('a[data-tip="delete"]');
+
+// Add event listeners to each edit icon
+editIcons.forEach((icon) => {
+  icon.addEventListener('click', (event) => {
+    // Get the corresponding row
+    const row = event.target.closest('tr');
+
+    // Make the row editable
+    row.contentEditable = true;
+    row.classList.add('editable');
+
+    // Change the edit icon to a save icon
+    const editIcon = row.querySelector('a[data-tip="edit"]');
+    editIcon.innerHTML = '<i class="fa fa-save"></i>';
+
+    // Add a click event listener to the save icon
+    editIcon.addEventListener('click', (event) => {
+      // Get the values from the edited row
+      const fullName = row.children[1].textContent;
+      const age = row.children[2].textContent;
+      const jobTitle = row.children[3].textContent;
+      const city = row.children[4].textContent;
+
+      // Do something with the edited values (e.g. send to server)
+      console.log(fullName, age, jobTitle, city);
+
+      // Make the row non-editable
+      row.contentEditable = false;
+      row.classList.remove('editable');
+
+      // Change the save icon back to an edit icon
+      editIcon.innerHTML = '<i class="fa fa-edit"></i>';
+
+      // Remove the click event listener from the save icon
+      editIcon.removeEventListener('click', handleSave);
+    });
+  });
+});
+
+// Add event listeners to each delete icon
+deleteIcons.forEach((icon) => {
+  icon.addEventListener('click', (event) => {
+    // Get the corresponding row
+    const row = event.target.closest('tr');
+
+    // Do something with the deleted row (e.g. send to server)
+    console.log(row);
+
+    // Remove the row from the table
+    row.remove();
+  });
+});

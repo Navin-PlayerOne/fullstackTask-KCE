@@ -1,0 +1,16 @@
+package com.kce.servlet;
+import java.io.IOException;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.*;
+
+@jakarta.servlet.annotation.WebServlet("/register")
+public class register extends jakarta.servlet.http.HttpServlet {
+
+	private static final long serialVersionUID = 1L;
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
+
+}
